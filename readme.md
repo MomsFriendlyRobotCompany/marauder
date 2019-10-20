@@ -16,6 +16,8 @@ Simple SLAM robot using the iRobot Create 2
 - [gecko C++](https://github.com/gecko-robotics/gecko)
     - `git clone repo`
     - `make install`
+- [pygecko-pycreate2](https://github.com/gecko-robotics/gecko-pycreate2)
+    - `pip install -U pygecko-pycreate2`
 - [simple slam python](https://github.com/MomsFriendlyRobotCompany/sslam)
     - `pip install -U sslam`
 - [ins]()
