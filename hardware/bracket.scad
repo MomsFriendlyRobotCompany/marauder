@@ -8,10 +8,12 @@ use <screws.scad>;
 module arm(h, d, a){
     aa = 90-a;
     len = h/sin(aa);
-    difference(){
-        rotate([aa,0,0]) cylinder(h=len*2.5,d=15, center=true);
-        translate([0,0,-50]) cube([100,100,100], center=true);
-        translate([0,0,h+50]) cube([100,100,100], center=true);
+    difference()
+    {
+        rotate([aa,0,0]) scale([.5,1,1]) cylinder(h=len*2.5,d1=20,d2=50, center=false);
+        s = 100;
+        translate([-(2*s)/2,-(2*s)/2,-s]) cube([2*s,2*s,s], center=false);
+        translate([-(2*s)/2,-(2*s)/2,h]) cube([2*s,2*s,s], center=false);
     }
 }
 
@@ -32,4 +34,4 @@ difference(){
 
 /* translate([30,-10,0]) rotate([45,0,0]) cylinder(h=30,d=15); */
 
-arm(20,15,60);
+translate([30,0,0]) arm(20,15,60);

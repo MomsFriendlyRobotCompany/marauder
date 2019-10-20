@@ -3,7 +3,33 @@ import time
 from pygecko.multiprocessing import geckopy
 from pygecko.packets import Sensors
 
+class create_st(namedtuple('create_st', 'bumps_wheeldrops cliff bumper encoder timestamp')):
+    """
+    Create2 key sensors
+    """
+    __slots__ = ()
 
+    def __new__(cls, bw, c, b, e, ts=None):
+        # cls.id = GeckoMsgFlags.create
+        cls.id = 100
+        if ts:
+            return cls.__bases__[0].__new__(cls, bw, c, b, e, ts)
+        else:
+            return cls.__bases__[0].__new__(cls, bw, c, b, e, time.time())
+
+class battery_st(namedtuple('battery_st', 'charge capacity voltage current timestamp')):
+    """
+    Create2 battery
+    """
+    __slots__ = ()
+
+    def __new__(cls, c, w, v, a, ts=None):
+        # cls.id = GeckoMsgFlags.create
+        cls.id = 101
+        if ts:
+            return cls.__bases__[0].__new__(cls, c, w, v, a, ts)
+        else:
+            return cls.__bases__[0].__new__(cls, c, w, v, a, time.time())
 
 class Marauder(object):
     def __init__(self, port, key):
@@ -17,8 +43,35 @@ class Marauder(object):
 
     def publisher(self):
         sensors = bot.get_sensors()  # returns all data
-        msg = sensors  # subset?
+        msg = create_st(
+            sensors.bumps_wheeldrops,
+            [
+                sensors.cliff_left_signal,
+                sensors.cliff_front_left_signal,
+                sensors.cliff_front_right_signal,
+                sensors.cliff_right_signal
+            ],
+            [
+                sensors.light_bumper_left,
+                sensors.light_bumper_front_left,
+                sensors.light_bumper_center_left,
+                sensors.light_bumper_center_right,
+                sensors.light_bumper_front_right,
+                sensors.light_bumper_right
+            ],
+            [
+                sensors.encoder_counts_left,
+                sensors.encoder_counts_right
+            ]
+        )
         p.publish(msg)  # topic msg
+
+        msg = battery_st(
+            sensors.charge,
+            sensors.capacity,
+            sensors.voltage,
+            sensors.current
+        )
 
     def subscriber(self):
         msg = s.recv_nb()

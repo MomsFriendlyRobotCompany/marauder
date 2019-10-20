@@ -2,24 +2,55 @@
 
 # Marauder
 
-Simple SLAM robot
+Simple SLAM robot using the iRobot Create 2
 
 ## Software
 
 - [pycreate2](https://github.com/MomsFriendlyRobotCompany/pycreate2)
+    - `pip install -U pycreate2`
 - [ydlidar](https://github.com/MomsFriendlyRobotCompany/ydlidar)
+    - `git clone repo`
+    - `make install`
 - [pygecko python](https://github.com/gecko-robotics/pygecko)
+    - `pip install -U pygecko`
 - [gecko C++](https://github.com/gecko-robotics/gecko)
+    - `git clone repo`
+    - `make install`
 - [simple slam python](https://github.com/MomsFriendlyRobotCompany/sslam)
+    - `pip install -U sslam`
+- [ins]()
+    - TBD
 
 ## Run
 
-```
-geckocore.py
-```
+1. `gecko.py core run`
+1. `/opt/gecko/modules/ydlidar/bin/gecko-ydlidar-node`
+    1. Serial port: `/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0`
+1. run ins
+1. `robot.py`
+    1. Serial port: `/dev/serial/by-id/...`
+
+# API
 
 ```
-robot.py
+sensors {
+    bumps_wheeldrops: int 0-15 (bit packed)
+    cliff: [4] int 0-4095 (left, front left, front right, right)
+    bumper: [6] int 0-4095 (left, front left, center left, center right, front right, right)
+    encoder: [2] int -322768-32767 (left, right)
+}
+
+battery {
+    charge: int 0-65535
+    capacity: int 0-65535
+    voltage: int 0-65535 mV
+    current: int -322768-32767 mA
+}
+
+command {
+    speed: int -500-500 mm/sec
+
+}
 ```
 
 # MIT License
