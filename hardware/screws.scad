@@ -21,6 +21,7 @@ module hex(D,t){
 
 module M3Nut(t){
     hex(6.4, t);
+    cylinder(h=t, d=3.3, center=true);
 }
 
 module M2Nut(t){
